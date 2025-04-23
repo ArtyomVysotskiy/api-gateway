@@ -1,0 +1,87 @@
+syntax = "proto3";
+
+package file_processing;
+
+option go_package = "file-processing-api/gen/file";
+
+service FileProcessing {
+  rpc GetFiles(GetFilesRequest) returns (GetFilesResponse);
+  rpc UploadFile(stream UploadFileRequest) returns (UploadFileResponse);
+
+  rpc SearchFile(SearchFileRequest) returns (SearchFileResponse);
+  rpc ConvertFile(ConvertFileRequest) returns (ConvertFileResponse);
+  rpc DeleteFile(DeleteFileRequest) returns (DeleteFileResponse);
+  rpc AnalyzeFile(AnalyzeFileRequest) returns (AnalyzeFileResponse);
+}
+
+
+message GetFilesRequest {
+  string user_id = 2;
+}
+
+message GetFilesResponse {
+  string file_id = 1;
+  string file_name = 2;
+  string file_size = 3;
+  string mime_type = 4;
+  string extension = 5;
+  string create_at = 6;
+}
+
+
+message UploadFileRequest {
+  string filename = 1;
+  bytes chunk = 2;
+}
+
+
+message UploadFileResponse {
+  string message = 1;
+  string file_id = 2;
+}
+
+
+message SearchFileRequest {
+  string file_id = 1;
+  string search_term = 2;
+  string user_id = 3;
+}
+
+
+message SearchFileResponse {
+  repeated string results = 1;
+}
+
+
+message ConvertFileRequest {
+  string file_id = 1;
+  string target_format = 2;
+  string user_id = 3;
+}
+
+
+message ConvertFileResponse {
+  string message = 1;
+  bytes converted_data = 2;
+}
+
+
+message DeleteFileRequest {
+  string file_id = 1;
+  string user_id = 2;
+}
+
+
+message DeleteFileResponse {
+  string message = 1;
+}
+
+message AnalyzeFileRequest {
+  string file_id = 1;
+  string user_id = 2;
+}
+
+
+message AnalyzeFileResponse {
+  string structure = 1;
+}

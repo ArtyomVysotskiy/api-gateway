@@ -10,11 +10,10 @@ import (
 )
 
 // Run - запускает приложение
-func Run() error {
+func Run() {
 	cfg, err := config.NewConfig()
 	if err != nil {
 		log.Fatalf("Failed to load configuration: %v", err)
-		return err
 	}
 
 	app := fiber.New()
@@ -29,13 +28,11 @@ func Run() error {
 		})
 	})
 
-	// Start server
-	log.Printf("Starting %s on port %d", cfg.App.Name, cfg.App.Port)
-	err = app.Listen(fmt.Sprintf(":%d", cfg.App.Port))
+	log.Printf("Starting %s on port %s", cfg.App.Name, cfg.App.Port)
+	err = app.Listen(fmt.Sprintf(":%s", cfg.App.Port))
 	if err != nil {
 		log.Fatalf("Failed to start server: %v", err)
-		return err
 	}
 
-	return nil
+	log.Fatal(app.Listen(cfg.App.Port))
 }

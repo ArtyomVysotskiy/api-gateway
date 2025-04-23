@@ -15,7 +15,7 @@ type (
 	AppConfig struct {
 		Name    string `yaml:"name"`
 		Version string `yaml:"version"`
-		Port    int    `yaml:"port"`
+		Port    string `yaml:"port"`
 	}
 	// MicroservicesConfig - структура конфига микросервисов
 	MicroservicesConfig struct {

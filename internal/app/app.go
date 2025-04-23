@@ -2,6 +2,7 @@ package app
 
 import (
 	"fmt"
+	"gitlab.crja72.ru/golang/2025/spring/course/projects/go21/api-gateway/internal/fileProcessing"
 	"log"
 
 	"github.com/gofiber/fiber/v3"
@@ -19,6 +20,7 @@ func Run() {
 	app := fiber.New()
 
 	_ = auth.RegisterRoutes(app, cfg)
+	_ = fileProcessing.RegisterRoutes(app, cfg)
 
 	app.Get("/health", func(c fiber.Ctx) error {
 		return c.Status(fiber.StatusOK).JSON(fiber.Map{

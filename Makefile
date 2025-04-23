@@ -9,7 +9,7 @@ proto-generate:
 proto-generate-file-processing:
 	protoc --proto_path=proto \
            		--go_out=gen/fileProcessing --go_opt=paths=source_relative \
-           		--go-grpc_out=gen/auth/fileProcessing --go-grpc_opt=paths=source_relative \
+           		--go-grpc_out=gen/fileProcessing --go-grpc_opt=paths=source_relative \
            		proto/file_processing.proto
 
 # Запуск

@@ -18,23 +18,32 @@ func UploadFile(c fiber.Ctx, client *ServiceClientFileProcessing) error {
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).SendString("Файл не получен")
 	}
-
+	fmt.Printf("file %+v\n", fileHeader)
 	file, err := fileHeader.Open()
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).SendString("Не удалось открыть файл")
 	}
 	defer file.Close()
+	fmt.Printf("open %+v\n", file)
+
+	fileSize := fileHeader.Size
+	if fileSize == 0 {
+		return c.Status(fiber.StatusBadRequest).SendString("Файл пустой")
+	}
 
 	// Подключаемся к gRPC
 	stream, err := client.Client.UploadFile(c.Context())
 	if err != nil {
+		fmt.Println(err)
 		return c.Status(fiber.StatusInternalServerError).SendString("Ошибка подключения к gRPC")
 	}
 
 	buf := make([]byte, 1024*32) // 32KB чанки
 	first := true
 	for {
+
 		n, err := file.Read(buf)
+		fmt.Printf("for %+v\n", n)
 		if err == io.EOF {
 			break
 		}
@@ -59,7 +68,9 @@ func UploadFile(c fiber.Ctx, client *ServiceClientFileProcessing) error {
 
 	// Завершаем и получаем ответ
 	resp, err := stream.CloseAndRecv()
+	fmt.Printf("close %+v\n", resp)
 	if err != nil {
+		fmt.Println(err)
 		return c.Status(fiber.StatusInternalServerError).SendString("Ошибка завершения gRPC стрима")
 	}
 

@@ -18,7 +18,6 @@ func Run() {
 	}
 
 	app := fiber.New()
-
 	_ = auth.RegisterRoutes(app, cfg)
 	_ = fileProcessing.RegisterRoutes(app, cfg)
 

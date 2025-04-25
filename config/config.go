@@ -19,7 +19,8 @@ type (
 	}
 	// MicroservicesConfig - структура конфига микросервисов
 	MicroservicesConfig struct {
-		AuthSvcUrl string `yaml:"authSvcUrl"`
+		AuthSvcUrl           string `yaml:"authSvcUrl"`
+		FileProcessingSvcUrl string `yaml:"fileProcessingSvcUrl"`
 	}
 )
 
@@ -28,7 +29,7 @@ func NewConfig() (*Config, error) {
 	// Создаем конфигурацию
 	cfg := &Config{}
 	// Загружаем конфигурацию с использованием cleanenv
-	if err := cleanenv.ReadConfig("./config/config.yaml", cfg); err != nil {
+	if err := cleanenv.ReadConfig("../../config/config.yaml", cfg); err != nil {
 		log.Println("Error loading environment variables:", err)
 		return nil, err
 	}

@@ -5,4 +5,4 @@ app:
 
 microservices:
   authSvcUrl: "localhost:50051"
-  fileProcessingSvcUrl: "localhost:50052"
+  fileProcessing: "localhost:50052"

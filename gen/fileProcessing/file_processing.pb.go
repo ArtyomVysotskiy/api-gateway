@@ -761,102 +761,6 @@ func (x *DeleteFileResponse) GetMessage() string {
 	return ""
 }
 
-type AnalyzeFileRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	FileId        string                 `protobuf:"bytes,1,opt,name=file_id,json=fileId,proto3" json:"file_id,omitempty"`
-	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *AnalyzeFileRequest) Reset() {
-	*x = AnalyzeFileRequest{}
-	mi := &file_file_processing_proto_msgTypes[13]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *AnalyzeFileRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*AnalyzeFileRequest) ProtoMessage() {}
-
-func (x *AnalyzeFileRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_file_processing_proto_msgTypes[13]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use AnalyzeFileRequest.ProtoReflect.Descriptor instead.
-func (*AnalyzeFileRequest) Descriptor() ([]byte, []int) {
-	return file_file_processing_proto_rawDescGZIP(), []int{13}
-}
-
-func (x *AnalyzeFileRequest) GetFileId() string {
-	if x != nil {
-		return x.FileId
-	}
-	return ""
-}
-
-func (x *AnalyzeFileRequest) GetUserId() string {
-	if x != nil {
-		return x.UserId
-	}
-	return ""
-}
-
-type AnalyzeFileResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Structure     string                 `protobuf:"bytes,1,opt,name=structure,proto3" json:"structure,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *AnalyzeFileResponse) Reset() {
-	*x = AnalyzeFileResponse{}
-	mi := &file_file_processing_proto_msgTypes[14]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *AnalyzeFileResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*AnalyzeFileResponse) ProtoMessage() {}
-
-func (x *AnalyzeFileResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_file_processing_proto_msgTypes[14]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use AnalyzeFileResponse.ProtoReflect.Descriptor instead.
-func (*AnalyzeFileResponse) Descriptor() ([]byte, []int) {
-	return file_file_processing_proto_rawDescGZIP(), []int{14}
-}
-
-func (x *AnalyzeFileResponse) GetStructure() string {
-	if x != nil {
-		return x.Structure
-	}
-	return ""
-}
-
 var File_file_processing_proto protoreflect.FileDescriptor
 
 const file_file_processing_proto_rawDesc = "" +
@@ -909,12 +813,7 @@ const file_file_processing_proto_rawDesc = "" +
 	"\afile_id\x18\x01 \x01(\tR\x06fileId\x12\x17\n" +
 	"\auser_id\x18\x02 \x01(\tR\x06userId\".\n" +
 	"\x12DeleteFileResponse\x12\x18\n" +
-	"\amessage\x18\x01 \x01(\tR\amessage\"F\n" +
-	"\x12AnalyzeFileRequest\x12\x17\n" +
-	"\afile_id\x18\x01 \x01(\tR\x06fileId\x12\x17\n" +
-	"\auser_id\x18\x02 \x01(\tR\x06userId\"3\n" +
-	"\x13AnalyzeFileResponse\x12\x1c\n" +
-	"\tstructure\x18\x01 \x01(\tR\tstructure2\xf6\x04\n" +
+	"\amessage\x18\x01 \x01(\tR\amessage2\x9c\x04\n" +
 	"\x0eFileProcessing\x12O\n" +
 	"\bGetFiles\x12 .file_processing.GetFilesRequest\x1a!.file_processing.GetFilesResponse\x12W\n" +
 	"\n" +
@@ -924,8 +823,7 @@ const file_file_processing_proto_rawDesc = "" +
 	"SearchFile\x12\".file_processing.SearchFileRequest\x1a#.file_processing.SearchFileResponse\x12X\n" +
 	"\vConvertFile\x12#.file_processing.ConvertFileRequest\x1a$.file_processing.ConvertFileResponse\x12U\n" +
 	"\n" +
-	"DeleteFile\x12\".file_processing.DeleteFileRequest\x1a#.file_processing.DeleteFileResponse\x12X\n" +
-	"\vAnalyzeFile\x12#.file_processing.AnalyzeFileRequest\x1a$.file_processing.AnalyzeFileResponseB\x1eZ\x1cfile-processing-api/gen/fileb\x06proto3"
+	"DeleteFile\x12\".file_processing.DeleteFileRequest\x1a#.file_processing.DeleteFileResponseB\x1eZ\x1cfile-processing-api/gen/fileb\x06proto3"
 
 var (
 	file_file_processing_proto_rawDescOnce sync.Once
@@ -939,7 +837,7 @@ func file_file_processing_proto_rawDescGZIP() []byte {
 	return file_file_processing_proto_rawDescData
 }
 
-var file_file_processing_proto_msgTypes = make([]protoimpl.MessageInfo, 15)
+var file_file_processing_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
 var file_file_processing_proto_goTypes = []any{
 	(*GetFilesRequest)(nil),     // 0: file_processing.GetFilesRequest
 	(*File)(nil),                // 1: file_processing.File
@@ -954,8 +852,6 @@ var file_file_processing_proto_goTypes = []any{
 	(*ConvertFileResponse)(nil), // 10: file_processing.ConvertFileResponse
 	(*DeleteFileRequest)(nil),   // 11: file_processing.DeleteFileRequest
 	(*DeleteFileResponse)(nil),  // 12: file_processing.DeleteFileResponse
-	(*AnalyzeFileRequest)(nil),  // 13: file_processing.AnalyzeFileRequest
-	(*AnalyzeFileResponse)(nil), // 14: file_processing.AnalyzeFileResponse
 }
 var file_file_processing_proto_depIdxs = []int32{
 	1,  // 0: file_processing.GetFilesResponse.files:type_name -> file_processing.File
@@ -965,16 +861,14 @@ var file_file_processing_proto_depIdxs = []int32{
 	7,  // 4: file_processing.FileProcessing.SearchFile:input_type -> file_processing.SearchFileRequest
 	9,  // 5: file_processing.FileProcessing.ConvertFile:input_type -> file_processing.ConvertFileRequest
 	11, // 6: file_processing.FileProcessing.DeleteFile:input_type -> file_processing.DeleteFileRequest
-	13, // 7: file_processing.FileProcessing.AnalyzeFile:input_type -> file_processing.AnalyzeFileRequest
-	2,  // 8: file_processing.FileProcessing.GetFiles:output_type -> file_processing.GetFilesResponse
-	4,  // 9: file_processing.FileProcessing.UploadFile:output_type -> file_processing.UploadFileResponse
-	6,  // 10: file_processing.FileProcessing.GetFileByID:output_type -> file_processing.GetFileByIDResponse
-	8,  // 11: file_processing.FileProcessing.SearchFile:output_type -> file_processing.SearchFileResponse
-	10, // 12: file_processing.FileProcessing.ConvertFile:output_type -> file_processing.ConvertFileResponse
-	12, // 13: file_processing.FileProcessing.DeleteFile:output_type -> file_processing.DeleteFileResponse
-	14, // 14: file_processing.FileProcessing.AnalyzeFile:output_type -> file_processing.AnalyzeFileResponse
-	8,  // [8:15] is the sub-list for method output_type
-	1,  // [1:8] is the sub-list for method input_type
+	2,  // 7: file_processing.FileProcessing.GetFiles:output_type -> file_processing.GetFilesResponse
+	4,  // 8: file_processing.FileProcessing.UploadFile:output_type -> file_processing.UploadFileResponse
+	6,  // 9: file_processing.FileProcessing.GetFileByID:output_type -> file_processing.GetFileByIDResponse
+	8,  // 10: file_processing.FileProcessing.SearchFile:output_type -> file_processing.SearchFileResponse
+	10, // 11: file_processing.FileProcessing.ConvertFile:output_type -> file_processing.ConvertFileResponse
+	12, // 12: file_processing.FileProcessing.DeleteFile:output_type -> file_processing.DeleteFileResponse
+	7,  // [7:13] is the sub-list for method output_type
+	1,  // [1:7] is the sub-list for method input_type
 	1,  // [1:1] is the sub-list for extension type_name
 	1,  // [1:1] is the sub-list for extension extendee
 	0,  // [0:1] is the sub-list for field type_name
@@ -991,7 +885,7 @@ func file_file_processing_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_file_processing_proto_rawDesc), len(file_file_processing_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   15,
+			NumMessages:   13,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

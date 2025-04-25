@@ -25,7 +25,6 @@ const (
 	FileProcessing_SearchFile_FullMethodName  = "/file_processing.FileProcessing/SearchFile"
 	FileProcessing_ConvertFile_FullMethodName = "/file_processing.FileProcessing/ConvertFile"
 	FileProcessing_DeleteFile_FullMethodName  = "/file_processing.FileProcessing/DeleteFile"
-	FileProcessing_AnalyzeFile_FullMethodName = "/file_processing.FileProcessing/AnalyzeFile"
 )
 
 // FileProcessingClient is the client API for FileProcessing service.
@@ -38,7 +37,6 @@ type FileProcessingClient interface {
 	SearchFile(ctx context.Context, in *SearchFileRequest, opts ...grpc.CallOption) (*SearchFileResponse, error)
 	ConvertFile(ctx context.Context, in *ConvertFileRequest, opts ...grpc.CallOption) (*ConvertFileResponse, error)
 	DeleteFile(ctx context.Context, in *DeleteFileRequest, opts ...grpc.CallOption) (*DeleteFileResponse, error)
-	AnalyzeFile(ctx context.Context, in *AnalyzeFileRequest, opts ...grpc.CallOption) (*AnalyzeFileResponse, error)
 }
 
 type fileProcessingClient struct {
@@ -112,16 +110,6 @@ func (c *fileProcessingClient) DeleteFile(ctx context.Context, in *DeleteFileReq
 	return out, nil
 }
 
-func (c *fileProcessingClient) AnalyzeFile(ctx context.Context, in *AnalyzeFileRequest, opts ...grpc.CallOption) (*AnalyzeFileResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(AnalyzeFileResponse)
-	err := c.cc.Invoke(ctx, FileProcessing_AnalyzeFile_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // FileProcessingServer is the server API for FileProcessing service.
 // All implementations must embed UnimplementedFileProcessingServer
 // for forward compatibility.
@@ -132,7 +120,6 @@ type FileProcessingServer interface {
 	SearchFile(context.Context, *SearchFileRequest) (*SearchFileResponse, error)
 	ConvertFile(context.Context, *ConvertFileRequest) (*ConvertFileResponse, error)
 	DeleteFile(context.Context, *DeleteFileRequest) (*DeleteFileResponse, error)
-	AnalyzeFile(context.Context, *AnalyzeFileRequest) (*AnalyzeFileResponse, error)
 	mustEmbedUnimplementedFileProcessingServer()
 }
 
@@ -160,9 +147,6 @@ func (UnimplementedFileProcessingServer) ConvertFile(context.Context, *ConvertFi
 }
 func (UnimplementedFileProcessingServer) DeleteFile(context.Context, *DeleteFileRequest) (*DeleteFileResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteFile not implemented")
-}
-func (UnimplementedFileProcessingServer) AnalyzeFile(context.Context, *AnalyzeFileRequest) (*AnalyzeFileResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AnalyzeFile not implemented")
 }
 func (UnimplementedFileProcessingServer) mustEmbedUnimplementedFileProcessingServer() {}
 func (UnimplementedFileProcessingServer) testEmbeddedByValue()                        {}
@@ -282,24 +266,6 @@ func _FileProcessing_DeleteFile_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
-func _FileProcessing_AnalyzeFile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AnalyzeFileRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(FileProcessingServer).AnalyzeFile(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: FileProcessing_AnalyzeFile_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FileProcessingServer).AnalyzeFile(ctx, req.(*AnalyzeFileRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // FileProcessing_ServiceDesc is the grpc.ServiceDesc for FileProcessing service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -326,10 +292,6 @@ var FileProcessing_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteFile",
 			Handler:    _FileProcessing_DeleteFile_Handler,
-		},
-		{
-			MethodName: "AnalyzeFile",
-			Handler:    _FileProcessing_AnalyzeFile_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

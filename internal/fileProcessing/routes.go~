@@ -40,6 +40,8 @@ func UploadFile(c fiber.Ctx, client *ServiceClientFileProcessing) error {
 		return c.Status(fiber.StatusBadRequest).SendString("Файл не получен")
 	}
 
+	
+
 	fmt.Printf("file %+v\n", fileHeader)
 
 	file, err := fileHeader.Open()

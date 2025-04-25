@@ -18,8 +18,8 @@ func Run() {
 	}
 
 	app := fiber.New()
-	_ = auth.RegisterRoutes(app, cfg)
-	_ = fileProcessing.RegisterRoutes(app, cfg)
+	authSvc := auth.RegisterRoutes(app, cfg)
+	_ = fileProcessing.RegisterRoutes(app, cfg, authSvc)
 
 	app.Get("/health", func(c fiber.Ctx) error {
 		return c.Status(fiber.StatusOK).JSON(fiber.Map{

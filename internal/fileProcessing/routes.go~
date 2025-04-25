@@ -108,7 +108,6 @@ func GetFiles(c fiber.Ctx, client *ServiceClientFileProcessing) error {
 }
 
 func GetFilesById(c fiber.Ctx, client *ServiceClientFileProcessing) error {
-	fmt.Println("GetFilesById")
 	var req GetFilesByIdRequest
 	if err := c.Bind().Body(&req); err != nil {
 		return c.Status(fiber.StatusBadRequest).SendString(err.Error())

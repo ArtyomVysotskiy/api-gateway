@@ -3,9 +3,10 @@ package auth
 import (
 	"fmt"
 
+	"google.golang.org/grpc"
+
 	"gitlab.crja72.ru/golang/2025/spring/course/projects/go21/api-gateway/config"
 	pb "gitlab.crja72.ru/golang/2025/spring/course/projects/go21/api-gateway/gen/auth"
-	"google.golang.org/grpc"
 )
 
 type ServiceClient struct {

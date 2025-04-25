@@ -1,0 +1,14 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: api-gateway
+    volumes:
+      - ./config:/app/config
+    ports:
+      - "3000:3000"
+    command: >
+      sh -c "
+        /app/api-gateway
+      "

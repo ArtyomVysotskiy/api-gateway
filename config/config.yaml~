@@ -1,8 +1,0 @@
-app:
-  name: "api-gateway"
-  version: "0.01"
-  port: "3000"
-
-microservices:
-  authSvcUrl: "localhost:50051"
-  fileProcessing: "localhost:50052"

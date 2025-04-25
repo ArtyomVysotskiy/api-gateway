@@ -94,13 +94,3 @@ message DeleteFileRequest {
 message DeleteFileResponse {
   string message = 1;
 }
-
-message AnalyzeFileRequest {
-  string file_id = 1;
-  string user_id = 2;
-}
-
-
-message AnalyzeFileResponse {
-  string structure = 1;
-}

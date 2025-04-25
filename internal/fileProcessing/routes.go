@@ -35,7 +35,12 @@ type GetFilesByIdRequest struct {
 	FileId string `json:"file_id"`
 }
 
+type DeleteFileRequest struct {
+	FileId string `json:"file_id"`
+}
+
 func UploadFile(c fiber.Ctx, client *ServiceClientFileProcessing) error {
+	fmt.Println("UploadFile")
 	fileHeader, err := c.FormFile("file")
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).SendString("Файл не получен")
@@ -102,39 +107,36 @@ func UploadFile(c fiber.Ctx, client *ServiceClientFileProcessing) error {
 }
 
 func GetFiles(c fiber.Ctx, client *ServiceClientFileProcessing) error {
-	res, err := client.Client.GetFiles(c.Context(), &pb.GetFilesRequest{})
+	userId := c.Locals("userId").(string)
+	res, err := client.Client.GetFiles(c.Context(), &pb.GetFilesRequest{
+		UserId: userId,
+	})
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).SendString("GetFiles")
 	}
-	req := GetFilesResponse{
-		FileId:    res.FileId,
-		FileName:  res.FileName,
-		FileSize:  res.FileSize,
-		MimeType:  res.MimeType,
-		Extension: res.Extension,
-		CreateAt:  res.CreateAt,
-	}
 
-	return c.SendString(fmt.Sprintf("%+v", req))
+	return c.SendString(fmt.Sprintf("%+v", res))
 }
 
 func GetFilesById(c fiber.Ctx, client *ServiceClientFileProcessing) error {
+	idUser := c.Locals("userId").(string)
 	var req GetFilesByIdRequest
 	if err := c.Bind().Body(&req); err != nil {
 		return c.Status(fiber.StatusBadRequest).SendString(err.Error())
 	}
-
+	fmt.Print(idUser)
 	res, err := client.Client.GetFileByID(c.Context(), &pb.GetFileByIDRequest{
-		UserId: req.IdUser,
+		UserId: idUser,
 		FileId: req.FileId,
 	})
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).SendString("GetFiles")
 	}
-	return c.SendString(fmt.Sprintf("%+v", res))
+	return c.SendString(fmt.Sprintf("%+v", res.FileId, res.FileName, res.FileSize, res.MimeType, res.Extension, res.CreateAt))
 }
 
 func SearchFiles(c fiber.Ctx, client *ServiceClientFileProcessing) error {
+	userId := c.Locals("userId").(string)
 	fmt.Println("SearchFiles")
 	var req SearchFilesRequest
 	if err := c.Bind().Body(&req); err != nil {
@@ -144,12 +146,28 @@ func SearchFiles(c fiber.Ctx, client *ServiceClientFileProcessing) error {
 	res, err := client.Client.SearchFile(c.Context(), &pb.SearchFileRequest{
 		FileId:     req.FileId,
 		SearchTerm: req.SearchTerm,
-		UserId:     req.UserId,
+		UserId:     userId,
 	})
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).SendString("GetFiles")
 	}
 
+	return c.SendString(fmt.Sprintf("%+v", res))
+}
+
+func DeleteFile(c fiber.Ctx, client *ServiceClientFileProcessing) error {
+	userId := c.Locals("userId").(string)
+	var req DeleteFileRequest
+	if err := c.Bind().Body(&req); err != nil {
+		return c.Status(fiber.StatusBadRequest).SendString(err.Error())
+	}
+	res, err := client.Client.DeleteFile(c.Context(), &pb.DeleteFileRequest{
+		FileId: req.FileId,
+		UserId: userId,
+	})
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).SendString("GetFiles")
+	}
 	return c.SendString(fmt.Sprintf("%+v", res))
 }
 
@@ -166,7 +184,7 @@ func RegisterRoutes(app *fiber.App, c *config.Config, authSvc *auth.ServiceClien
 	fileProcessing.Post("/UploadFile", func(c fiber.Ctx) error {
 		return UploadFile(c, svc)
 	})
-	fileProcessing.Get("/GetFiles", func(c fiber.Ctx) error {
+	fileProcessing.Post("/GetFiles", func(c fiber.Ctx) error {
 		return GetFiles(c, svc)
 	})
 	fileProcessing.Post("/GetFilesById", func(c fiber.Ctx) error {
@@ -174,6 +192,9 @@ func RegisterRoutes(app *fiber.App, c *config.Config, authSvc *auth.ServiceClien
 	})
 	fileProcessing.Post("/SearchFiles", func(c fiber.Ctx) error {
 		return SearchFiles(c, svc)
+	})
+	fileProcessing.Delete("/DeleteFile", func(c fiber.Ctx) error {
+		return DeleteFile(c, svc)
 	})
 
 	return svc

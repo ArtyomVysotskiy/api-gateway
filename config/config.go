@@ -1,8 +1,9 @@
 package config
 
 import (
-	"github.com/ilyakaznacheev/cleanenv"
 	"log"
+
+	"github.com/ilyakaznacheev/cleanenv"
 )
 
 type (
@@ -29,7 +30,7 @@ func NewConfig() (*Config, error) {
 	// Создаем конфигурацию
 	cfg := &Config{}
 	// Загружаем конфигурацию с использованием cleanenv
-	if err := cleanenv.ReadConfig("../../config/config.yaml", cfg); err != nil {
+	if err := cleanenv.ReadConfig("./config/config.yaml", cfg); err != nil {
 		log.Println("Error loading environment variables:", err)
 		return nil, err
 	}

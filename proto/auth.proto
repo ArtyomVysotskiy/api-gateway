@@ -46,6 +46,7 @@ message ValidateTokenRequest {
 
 message ValidateTokenResponse {
   bool valid = 1;
+  int64 userId = 2;
 }
 
 message LogoutRequest {

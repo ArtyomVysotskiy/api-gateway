@@ -19,13 +19,17 @@ message GetFilesRequest {
   string user_id = 2;
 }
 
-message GetFilesResponse {
+message File {
   string file_id = 1;
   string file_name = 2;
   string file_size = 3;
   string mime_type = 4;
   string extension = 5;
   string create_at = 6;
+}
+
+message GetFilesResponse {
+  repeated File files = 1;
 }
 
 

@@ -10,6 +10,7 @@ import (
 )
 
 type UploadFileRequest struct {
+	IdUser   string
 	Filename string
 	Chunk    []byte
 }
@@ -39,15 +40,13 @@ func UploadFile(c fiber.Ctx, client *ServiceClientFileProcessing) error {
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).SendString("Файл не получен")
 	}
-
-	fmt.Printf("file %+v\n", fileHeader)
-
+	userId := c.Locals("userId").(string)
+	fmt.Println("user", userId)
 	file, err := fileHeader.Open()
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).SendString("Не удалось открыть файл")
 	}
 	defer file.Close()
-	fmt.Printf("open %+v\n", file)
 
 	fileSize := fileHeader.Size
 	if fileSize == 0 {
@@ -75,13 +74,12 @@ func UploadFile(c fiber.Ctx, client *ServiceClientFileProcessing) error {
 			break
 		}
 
-		fmt.Printf("Uploading chunk: %d bytes\n", n)
-
 		req := &pb.UploadFileRequest{
 			Chunk: buf[:n],
 		}
 
 		if first {
+			req.UserId = userId
 			req.Filename = fileHeader.Filename
 			first = false
 		}

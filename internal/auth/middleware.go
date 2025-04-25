@@ -2,6 +2,7 @@ package auth
 
 import (
 	"context"
+	"fmt"
 	"strings"
 
 	"github.com/gofiber/fiber/v3"
@@ -46,6 +47,8 @@ func (c *AuthMiddlewareConfig) AuthRequired(ctx fiber.Ctx) error {
 		})
 	}
 
+	// Поиск совпадения
+	fmt.Println("valid", res.Valid, "userId", res.GetUserId())
 	ctx.Locals("userId", res.UserId)
 
 	return ctx.Next()

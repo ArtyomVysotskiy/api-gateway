@@ -313,7 +313,7 @@ type GetFileByIDResponse struct {
 	MimeType      string                 `protobuf:"bytes,4,opt,name=mime_type,json=mimeType,proto3" json:"mime_type,omitempty"`
 	Extension     string                 `protobuf:"bytes,5,opt,name=extension,proto3" json:"extension,omitempty"`
 	CreateAt      string                 `protobuf:"bytes,6,opt,name=create_at,json=createAt,proto3" json:"create_at,omitempty"`
-	Content       string                 `protobuf:"bytes,7,opt,name=content,proto3" json:"content,omitempty"`
+	Content       []byte                 `protobuf:"bytes,7,opt,name=content,proto3" json:"content,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -390,11 +390,11 @@ func (x *GetFileByIDResponse) GetCreateAt() string {
 	return ""
 }
 
-func (x *GetFileByIDResponse) GetContent() string {
+func (x *GetFileByIDResponse) GetContent() []byte {
 	if x != nil {
 		return x.Content
 	}
-	return ""
+	return nil
 }
 
 type SearchFileRequest struct {
@@ -835,7 +835,7 @@ const file_file_processing_proto_rawDesc = "" +
 	"\tmime_type\x18\x04 \x01(\tR\bmimeType\x12\x1c\n" +
 	"\textension\x18\x05 \x01(\tR\textension\x12\x1b\n" +
 	"\tcreate_at\x18\x06 \x01(\tR\bcreateAt\x12\x18\n" +
-	"\acontent\x18\a \x01(\tR\acontent\"f\n" +
+	"\acontent\x18\a \x01(\fR\acontent\"f\n" +
 	"\x11SearchFileRequest\x12\x17\n" +
 	"\afile_id\x18\x01 \x01(\tR\x06fileId\x12\x1f\n" +
 	"\vsearch_term\x18\x02 \x01(\tR\n" +

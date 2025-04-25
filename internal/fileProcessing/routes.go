@@ -13,6 +13,20 @@ type UploadFileRequest struct {
 	Chunk    []byte
 }
 
+type GetFilesRequest struct {
+	FileId    string
+	FileName  string
+	FileSize  string
+	MimeType  string
+	Extension string
+	CreateAt  string
+}
+
+type GetFilesByIdRequest struct {
+	IdUser string
+	FileId string
+}
+
 func UploadFile(c fiber.Ctx, client *ServiceClientFileProcessing) error {
 	fileHeader, err := c.FormFile("file")
 	if err != nil {
@@ -55,7 +69,6 @@ func UploadFile(c fiber.Ctx, client *ServiceClientFileProcessing) error {
 			Chunk: buf[:n],
 		}
 
-		// 🔸 Добавляем имя только в первом чанке
 		if first {
 			req.Filename = fileHeader.Filename
 			first = false
@@ -77,6 +90,31 @@ func UploadFile(c fiber.Ctx, client *ServiceClientFileProcessing) error {
 	return c.SendString(fmt.Sprintf("Файл %s загружен. Ответ: %s", fileHeader.Filename, resp.Message))
 }
 
+func GetFiles(c fiber.Ctx, client *ServiceClientFileProcessing) error {
+	res, err := client.Client.GetFiles(c.Context(), &pb.GetFilesRequest{})
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).SendString("GetFiles")
+	}
+	req := GetFilesRequest{
+		FileId:    res.FileId,
+		FileName:  res.FileName,
+		FileSize:  res.FileSize,
+		MimeType:  res.MimeType,
+		Extension: res.Extension,
+		CreateAt:  res.CreateAt,
+	}
+
+	return c.SendString(fmt.Sprintf("%+v", req))
+}
+
+func GetFilesById(c fiber.Ctx, client *ServiceClientFileProcessing) error {
+	res, err := client.Client.GetFilesById(c.Context(), &pb.GetFilesByIdRequest{})
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).SendString("GetFiles")
+	}
+	return c.SendString(fmt.Sprintf("%+v", res))
+}
+
 func RegisterRoutes(app *fiber.App, c *config.Config) *ServiceClientFileProcessing {
 	svc := &ServiceClientFileProcessing{
 		Client: InitServiceClient(c),
@@ -86,6 +124,9 @@ func RegisterRoutes(app *fiber.App, c *config.Config) *ServiceClientFileProcessi
 
 	fileProcessing.Post("/UploadFile", func(c fiber.Ctx) error {
 		return UploadFile(c, svc)
+	})
+	fileProcessing.Get("/GetFiles", func(c fiber.Ctx) error {
+		return GetFiles(c, svc)
 	})
 
 	return svc

@@ -57,7 +57,7 @@ func UploadFile(c fiber.Ctx, client *ServiceClientFileProcessing) error {
 	stream, err := client.Client.UploadFile(c.Context())
 	if err != nil {
 		fmt.Println(err)
-		return c.Status(fiber.StatusInternalServerError).SendString("Ошибка подключения к gRPC" err)
+		return c.Status(fiber.StatusInternalServerError).SendString("Ошибка подключения к gRPC")
 	}
 
 	buf := make([]byte, 1024*16) // 16KB чанки, чтобы снизить нагрузку

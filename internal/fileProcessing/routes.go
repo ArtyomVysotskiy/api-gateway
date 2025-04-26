@@ -161,6 +161,7 @@ func DeleteFile(c fiber.Ctx, client *ServiceClientFileProcessing) error {
 	if err := c.Bind().Body(&req); err != nil {
 		return c.Status(fiber.StatusBadRequest).SendString(err.Error())
 	}
+	fmt.Println("DeleteFile")
 	res, err := client.Client.DeleteFile(c.Context(), &pb.DeleteFileRequest{
 		FileId: req.FileId,
 		UserId: userId,

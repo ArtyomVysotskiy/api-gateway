@@ -553,29 +553,28 @@ func (x *SearchFileResponse) GetResults() []string {
 	return nil
 }
 
-type ConvertFileRequest struct {
+type DownloadFileRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	FileId        string                 `protobuf:"bytes,1,opt,name=file_id,json=fileId,proto3" json:"file_id,omitempty"`
-	TargetFormat  string                 `protobuf:"bytes,2,opt,name=target_format,json=targetFormat,proto3" json:"target_format,omitempty"`
-	UserId        string                 `protobuf:"bytes,3,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *ConvertFileRequest) Reset() {
-	*x = ConvertFileRequest{}
+func (x *DownloadFileRequest) Reset() {
+	*x = DownloadFileRequest{}
 	mi := &file_file_processing_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ConvertFileRequest) String() string {
+func (x *DownloadFileRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ConvertFileRequest) ProtoMessage() {}
+func (*DownloadFileRequest) ProtoMessage() {}
 
-func (x *ConvertFileRequest) ProtoReflect() protoreflect.Message {
+func (x *DownloadFileRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_file_processing_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -587,54 +586,48 @@ func (x *ConvertFileRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ConvertFileRequest.ProtoReflect.Descriptor instead.
-func (*ConvertFileRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use DownloadFileRequest.ProtoReflect.Descriptor instead.
+func (*DownloadFileRequest) Descriptor() ([]byte, []int) {
 	return file_file_processing_proto_rawDescGZIP(), []int{9}
 }
 
-func (x *ConvertFileRequest) GetFileId() string {
+func (x *DownloadFileRequest) GetFileId() string {
 	if x != nil {
 		return x.FileId
 	}
 	return ""
 }
 
-func (x *ConvertFileRequest) GetTargetFormat() string {
-	if x != nil {
-		return x.TargetFormat
-	}
-	return ""
-}
-
-func (x *ConvertFileRequest) GetUserId() string {
+func (x *DownloadFileRequest) GetUserId() string {
 	if x != nil {
 		return x.UserId
 	}
 	return ""
 }
 
-type ConvertFileResponse struct {
+type DownloadFileResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Message       string                 `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
-	ConvertedData []byte                 `protobuf:"bytes,2,opt,name=converted_data,json=convertedData,proto3" json:"converted_data,omitempty"`
+	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	MimeType      string                 `protobuf:"bytes,2,opt,name=mime_type,json=mimeType,proto3" json:"mime_type,omitempty"`
+	Content       string                 `protobuf:"bytes,3,opt,name=content,proto3" json:"content,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *ConvertFileResponse) Reset() {
-	*x = ConvertFileResponse{}
+func (x *DownloadFileResponse) Reset() {
+	*x = DownloadFileResponse{}
 	mi := &file_file_processing_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ConvertFileResponse) String() string {
+func (x *DownloadFileResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ConvertFileResponse) ProtoMessage() {}
+func (*DownloadFileResponse) ProtoMessage() {}
 
-func (x *ConvertFileResponse) ProtoReflect() protoreflect.Message {
+func (x *DownloadFileResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_file_processing_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -646,23 +639,30 @@ func (x *ConvertFileResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ConvertFileResponse.ProtoReflect.Descriptor instead.
-func (*ConvertFileResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use DownloadFileResponse.ProtoReflect.Descriptor instead.
+func (*DownloadFileResponse) Descriptor() ([]byte, []int) {
 	return file_file_processing_proto_rawDescGZIP(), []int{10}
 }
 
-func (x *ConvertFileResponse) GetMessage() string {
+func (x *DownloadFileResponse) GetName() string {
 	if x != nil {
-		return x.Message
+		return x.Name
 	}
 	return ""
 }
 
-func (x *ConvertFileResponse) GetConvertedData() []byte {
+func (x *DownloadFileResponse) GetMimeType() string {
 	if x != nil {
-		return x.ConvertedData
+		return x.MimeType
 	}
-	return nil
+	return ""
+}
+
+func (x *DownloadFileResponse) GetContent() string {
+	if x != nil {
+		return x.Content
+	}
+	return ""
 }
 
 type DeleteFileRequest struct {
@@ -801,27 +801,27 @@ const file_file_processing_proto_rawDesc = "" +
 	"searchTerm\x12\x17\n" +
 	"\auser_id\x18\x03 \x01(\tR\x06userId\".\n" +
 	"\x12SearchFileResponse\x12\x18\n" +
-	"\aresults\x18\x01 \x03(\tR\aresults\"k\n" +
-	"\x12ConvertFileRequest\x12\x17\n" +
-	"\afile_id\x18\x01 \x01(\tR\x06fileId\x12#\n" +
-	"\rtarget_format\x18\x02 \x01(\tR\ftargetFormat\x12\x17\n" +
-	"\auser_id\x18\x03 \x01(\tR\x06userId\"V\n" +
-	"\x13ConvertFileResponse\x12\x18\n" +
-	"\amessage\x18\x01 \x01(\tR\amessage\x12%\n" +
-	"\x0econverted_data\x18\x02 \x01(\fR\rconvertedData\"E\n" +
+	"\aresults\x18\x01 \x03(\tR\aresults\"G\n" +
+	"\x13DownloadFileRequest\x12\x17\n" +
+	"\afile_id\x18\x01 \x01(\tR\x06fileId\x12\x17\n" +
+	"\auser_id\x18\x02 \x01(\tR\x06userId\"a\n" +
+	"\x14DownloadFileResponse\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12\x1b\n" +
+	"\tmime_type\x18\x02 \x01(\tR\bmimeType\x12\x18\n" +
+	"\acontent\x18\x03 \x01(\tR\acontent\"E\n" +
 	"\x11DeleteFileRequest\x12\x17\n" +
 	"\afile_id\x18\x01 \x01(\tR\x06fileId\x12\x17\n" +
 	"\auser_id\x18\x02 \x01(\tR\x06userId\".\n" +
 	"\x12DeleteFileResponse\x12\x18\n" +
-	"\amessage\x18\x01 \x01(\tR\amessage2\x9c\x04\n" +
+	"\amessage\x18\x01 \x01(\tR\amessage2\xa1\x04\n" +
 	"\x0eFileProcessing\x12O\n" +
 	"\bGetFiles\x12 .file_processing.GetFilesRequest\x1a!.file_processing.GetFilesResponse\x12W\n" +
 	"\n" +
 	"UploadFile\x12\".file_processing.UploadFileRequest\x1a#.file_processing.UploadFileResponse(\x01\x12X\n" +
 	"\vGetFileByID\x12#.file_processing.GetFileByIDRequest\x1a$.file_processing.GetFileByIDResponse\x12U\n" +
 	"\n" +
-	"SearchFile\x12\".file_processing.SearchFileRequest\x1a#.file_processing.SearchFileResponse\x12X\n" +
-	"\vConvertFile\x12#.file_processing.ConvertFileRequest\x1a$.file_processing.ConvertFileResponse\x12U\n" +
+	"SearchFile\x12\".file_processing.SearchFileRequest\x1a#.file_processing.SearchFileResponse\x12]\n" +
+	"\fDownloadFile\x12$.file_processing.DownloadFileRequest\x1a%.file_processing.DownloadFileResponse0\x01\x12U\n" +
 	"\n" +
 	"DeleteFile\x12\".file_processing.DeleteFileRequest\x1a#.file_processing.DeleteFileResponseB\x1eZ\x1cfile-processing-api/gen/fileb\x06proto3"
 
@@ -839,19 +839,19 @@ func file_file_processing_proto_rawDescGZIP() []byte {
 
 var file_file_processing_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
 var file_file_processing_proto_goTypes = []any{
-	(*GetFilesRequest)(nil),     // 0: file_processing.GetFilesRequest
-	(*File)(nil),                // 1: file_processing.File
-	(*GetFilesResponse)(nil),    // 2: file_processing.GetFilesResponse
-	(*UploadFileRequest)(nil),   // 3: file_processing.UploadFileRequest
-	(*UploadFileResponse)(nil),  // 4: file_processing.UploadFileResponse
-	(*GetFileByIDRequest)(nil),  // 5: file_processing.GetFileByIDRequest
-	(*GetFileByIDResponse)(nil), // 6: file_processing.GetFileByIDResponse
-	(*SearchFileRequest)(nil),   // 7: file_processing.SearchFileRequest
-	(*SearchFileResponse)(nil),  // 8: file_processing.SearchFileResponse
-	(*ConvertFileRequest)(nil),  // 9: file_processing.ConvertFileRequest
-	(*ConvertFileResponse)(nil), // 10: file_processing.ConvertFileResponse
-	(*DeleteFileRequest)(nil),   // 11: file_processing.DeleteFileRequest
-	(*DeleteFileResponse)(nil),  // 12: file_processing.DeleteFileResponse
+	(*GetFilesRequest)(nil),      // 0: file_processing.GetFilesRequest
+	(*File)(nil),                 // 1: file_processing.File
+	(*GetFilesResponse)(nil),     // 2: file_processing.GetFilesResponse
+	(*UploadFileRequest)(nil),    // 3: file_processing.UploadFileRequest
+	(*UploadFileResponse)(nil),   // 4: file_processing.UploadFileResponse
+	(*GetFileByIDRequest)(nil),   // 5: file_processing.GetFileByIDRequest
+	(*GetFileByIDResponse)(nil),  // 6: file_processing.GetFileByIDResponse
+	(*SearchFileRequest)(nil),    // 7: file_processing.SearchFileRequest
+	(*SearchFileResponse)(nil),   // 8: file_processing.SearchFileResponse
+	(*DownloadFileRequest)(nil),  // 9: file_processing.DownloadFileRequest
+	(*DownloadFileResponse)(nil), // 10: file_processing.DownloadFileResponse
+	(*DeleteFileRequest)(nil),    // 11: file_processing.DeleteFileRequest
+	(*DeleteFileResponse)(nil),   // 12: file_processing.DeleteFileResponse
 }
 var file_file_processing_proto_depIdxs = []int32{
 	1,  // 0: file_processing.GetFilesResponse.files:type_name -> file_processing.File
@@ -859,13 +859,13 @@ var file_file_processing_proto_depIdxs = []int32{
 	3,  // 2: file_processing.FileProcessing.UploadFile:input_type -> file_processing.UploadFileRequest
 	5,  // 3: file_processing.FileProcessing.GetFileByID:input_type -> file_processing.GetFileByIDRequest
 	7,  // 4: file_processing.FileProcessing.SearchFile:input_type -> file_processing.SearchFileRequest
-	9,  // 5: file_processing.FileProcessing.ConvertFile:input_type -> file_processing.ConvertFileRequest
+	9,  // 5: file_processing.FileProcessing.DownloadFile:input_type -> file_processing.DownloadFileRequest
 	11, // 6: file_processing.FileProcessing.DeleteFile:input_type -> file_processing.DeleteFileRequest
 	2,  // 7: file_processing.FileProcessing.GetFiles:output_type -> file_processing.GetFilesResponse
 	4,  // 8: file_processing.FileProcessing.UploadFile:output_type -> file_processing.UploadFileResponse
 	6,  // 9: file_processing.FileProcessing.GetFileByID:output_type -> file_processing.GetFileByIDResponse
 	8,  // 10: file_processing.FileProcessing.SearchFile:output_type -> file_processing.SearchFileResponse
-	10, // 11: file_processing.FileProcessing.ConvertFile:output_type -> file_processing.ConvertFileResponse
+	10, // 11: file_processing.FileProcessing.DownloadFile:output_type -> file_processing.DownloadFileResponse
 	12, // 12: file_processing.FileProcessing.DeleteFile:output_type -> file_processing.DeleteFileResponse
 	7,  // [7:13] is the sub-list for method output_type
 	1,  // [1:7] is the sub-list for method input_type

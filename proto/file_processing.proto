@@ -9,7 +9,7 @@ service FileProcessing {
   rpc UploadFile(stream UploadFileRequest) returns (UploadFileResponse);
   rpc GetFileByID(GetFileByIDRequest) returns (GetFileByIDResponse);
   rpc SearchFile(SearchFileRequest) returns (SearchFileResponse);
-  rpc ConvertFile(ConvertFileRequest) returns (ConvertFileResponse);
+  rpc DownloadFile(DownloadFileRequest) returns (stream DownloadFileResponse);
   rpc DeleteFile(DeleteFileRequest) returns (DeleteFileResponse);
 }
 
@@ -71,16 +71,15 @@ message SearchFileResponse {
 }
 
 
-message ConvertFileRequest {
-  string file_id = 1;
-  string target_format = 2;
-  string user_id = 3;
+message DownloadFileRequest {
+ string file_id = 1;
+ string user_id = 2;
 }
 
-
-message ConvertFileResponse {
-  string message = 1;
-  bytes converted_data = 2;
+message DownloadFileResponse {
+  string name = 1;
+  string mime_type = 2;
+  string content = 3;
 }
 
 

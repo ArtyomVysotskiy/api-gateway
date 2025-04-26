@@ -72,14 +72,14 @@ message SearchFileResponse {
 
 
 message DownloadFileRequest {
- string file_id = 1;
- string user_id = 2;
+  string file_id = 1;
+  string user_id = 2;
 }
 
 message DownloadFileResponse {
   string name = 1;
   string mime_type = 2;
-  string content = 3;
+  bytes content = 3;
 }
 
 

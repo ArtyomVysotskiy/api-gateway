@@ -609,7 +609,7 @@ type DownloadFileResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	MimeType      string                 `protobuf:"bytes,2,opt,name=mime_type,json=mimeType,proto3" json:"mime_type,omitempty"`
-	Content       string                 `protobuf:"bytes,3,opt,name=content,proto3" json:"content,omitempty"`
+	Content       []byte                 `protobuf:"bytes,3,opt,name=content,proto3" json:"content,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -658,11 +658,11 @@ func (x *DownloadFileResponse) GetMimeType() string {
 	return ""
 }
 
-func (x *DownloadFileResponse) GetContent() string {
+func (x *DownloadFileResponse) GetContent() []byte {
 	if x != nil {
 		return x.Content
 	}
-	return ""
+	return nil
 }
 
 type DeleteFileRequest struct {
@@ -808,7 +808,7 @@ const file_file_processing_proto_rawDesc = "" +
 	"\x14DownloadFileResponse\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x1b\n" +
 	"\tmime_type\x18\x02 \x01(\tR\bmimeType\x12\x18\n" +
-	"\acontent\x18\x03 \x01(\tR\acontent\"E\n" +
+	"\acontent\x18\x03 \x01(\fR\acontent\"E\n" +
 	"\x11DeleteFileRequest\x12\x17\n" +
 	"\afile_id\x18\x01 \x01(\tR\x06fileId\x12\x17\n" +
 	"\auser_id\x18\x02 \x01(\tR\x06userId\".\n" +

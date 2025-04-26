@@ -1,6 +1,7 @@
 package fileProcessing
 
 import (
+	"bytes"
 	"fmt"
 	"github.com/gofiber/fiber/v3"
 	"gitlab.crja72.ru/golang/2025/spring/course/projects/go21/api-gateway/config"
@@ -191,9 +192,37 @@ func DownloadFile(c fiber.Ctx, client *ServiceClientFileProcessing) error {
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).SendString("error" + err.Error())
 	}
-	c.Set("Content-Disposition", "attachment; filename=downloaded_file")
-	c.Set("Content-Type", "application/octet-stream")
 
+	var filename string
+	var mimeType string
+	var buffer bytes.Buffer
+
+	for {
+		resp, err := stream.Recv()
+		if err == io.EOF {
+			break // поток завершён
+		}
+		if err != nil {
+			return c.Status(fiber.StatusInternalServerError).SendString("Ошибка получения файла")
+		}
+
+		// Сохраняем имя файла и mime только один раз (при первой пачке)
+		if filename == "" {
+			filename = resp.GetName()
+		}
+		if mimeType == "" {
+			mimeType = resp.GetMimeType()
+		}
+
+		buffer.Write(resp.GetContent())
+	}
+
+	fmt.Println(filename)
+
+	c.Set("Content-Disposition", fmt.Sprintf("attachment; filename=%q", filename))
+	c.Set("Content-Type", mimeType)
+	c.Set("Content-Length", fmt.Sprintf("%d", buffer.Len()))
+	return c.Send(buffer.Bytes())
 }
 
 func RegisterRoutes(app *fiber.App, c *config.Config, authSvc *auth.ServiceClient) *ServiceClientFileProcessing {
@@ -220,6 +249,9 @@ func RegisterRoutes(app *fiber.App, c *config.Config, authSvc *auth.ServiceClien
 	})
 	fileProcessing.Delete("/DeleteFile", func(c fiber.Ctx) error {
 		return DeleteFile(c, svc)
+	})
+	fileProcessing.Post("/DownloadFile", func(c fiber.Ctx) error {
+		return DownloadFile(c, svc)
 	})
 
 	return svc

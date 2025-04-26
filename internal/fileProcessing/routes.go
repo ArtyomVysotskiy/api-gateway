@@ -39,6 +39,11 @@ type DeleteFileRequest struct {
 	FileId string `json:"file_id"`
 }
 
+type DownloadFileRequest struct {
+	IdUser string `json:"id_user"`
+	FileId string `json:"file_id"`
+}
+
 func UploadFile(c fiber.Ctx, client *ServiceClientFileProcessing) error {
 	fmt.Println("UploadFile")
 	fileHeader, err := c.FormFile("file")
@@ -112,7 +117,7 @@ func GetFiles(c fiber.Ctx, client *ServiceClientFileProcessing) error {
 		UserId: userId,
 	})
 	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).SendString("GetFiles")
+		return c.Status(fiber.StatusInternalServerError).SendString("error" + err.Error())
 	}
 
 	return c.SendString(fmt.Sprintf("%+v", res))
@@ -130,7 +135,7 @@ func GetFilesById(c fiber.Ctx, client *ServiceClientFileProcessing) error {
 		FileId: req.FileId,
 	})
 	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).SendString("GetFiles")
+		return c.Status(fiber.StatusInternalServerError).SendString("error" + err.Error())
 	}
 	return c.SendString(fmt.Sprintf("%+v", res.FileId, res.FileName, res.FileSize, res.MimeType, res.Extension, res.CreateAt))
 }
@@ -149,7 +154,7 @@ func SearchFiles(c fiber.Ctx, client *ServiceClientFileProcessing) error {
 		UserId:     userId,
 	})
 	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).SendString("GetFiles")
+		return c.Status(fiber.StatusInternalServerError).SendString("error" + err.Error())
 	}
 
 	return c.SendString(fmt.Sprintf("%+v", res))
@@ -167,9 +172,28 @@ func DeleteFile(c fiber.Ctx, client *ServiceClientFileProcessing) error {
 		UserId: userId,
 	})
 	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).SendString("GetFiles")
+		return c.Status(fiber.StatusInternalServerError).SendString("error" + err.Error())
 	}
 	return c.SendString(fmt.Sprintf("%+v", res))
+}
+
+func DownloadFile(c fiber.Ctx, client *ServiceClientFileProcessing) error {
+	userId := c.Locals("userId").(string)
+	var req DownloadFileRequest
+	if err := c.Bind().Body(&req); err != nil {
+		return c.Status(fiber.StatusBadRequest).SendString(err.Error())
+	}
+	fmt.Println("DownloadFile")
+	stream, err := client.Client.DownloadFile(c.Context(), &pb.DownloadFileRequest{
+		FileId: req.FileId,
+		UserId: userId,
+	})
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).SendString("error" + err.Error())
+	}
+	c.Set("Content-Disposition", "attachment; filename=downloaded_file")
+	c.Set("Content-Type", "application/octet-stream")
+
 }
 
 func RegisterRoutes(app *fiber.App, c *config.Config, authSvc *auth.ServiceClient) *ServiceClientFileProcessing {
